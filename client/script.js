@@ -1,36 +1,26 @@
-
-
 const url = "http://localhost:3000/cars";
 
 window.addEventListener('load', fetchData);
 
 function fetchData() {
     fetch(url)
-        .then((response) => response.json())
+        .then((result) => result.json())
         .then((cars) => {
             if (cars.length > 0) {
-            // const newUl = document.createElement('ul');
-            // const div = document.querySelector('.container');
-            // div.insertAdjacentElement('beforeend', newUl);
-                console.log("hej");
                 let html = `<ul>`;
 
-        // loopa igenom alla users och placera dom individuellt i DOM-trädet 
+                // loopa igenom alla users och placera dom individuellt i DOM-trädet 
                 cars.forEach((car) => {
-                // const newLi = document.createElement('li');     
-                // newLi.style.backgroundColor = car.color;
                     const brand = car.brand;
                     const model = car.model;
                     const year = car.year;
                     const id = car.id;
                     const color = car.color;
-                // newLi.id = id;  
-                // const html = `${brand}, ${model}, ${year}`; 
-                // const deleteBtn = `<button class="btn btn-primary"> Delete </button>`;
             
                     html += `
                     <li id="${id}" class="list list-group" style="background-color:${color}">${brand}, ${model}, ${year} 
-                    <button class="btn btm-sm btn-primary" onclick="deleteCar(${car.id})">Delete</button>
+                    <button class="btn btm-sm btn-primary" onclick="deleteCar(${car.id})" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</button>
+                    <button class="btn btm-sm btn-primary" onclick="updateCar(${car.id})">Update</button>
                     </li>`;
                 });
                 html += `</ul>`;
@@ -43,9 +33,27 @@ function fetchData() {
         });
 }
 
+function updateCar(id) {
+    console.log('current', id); 
+    fetch(`${url}/${id}`)
+        .then((result) => result.json())
+        .then((car) => {
+            console.log(car);
+            carForm.brand.value = car.brand;
+            carForm.model.value = car.model;
+            carForm.year.value = car.year;
+            carForm.color.value = car.color;
+
+            localStorage.setItem('currentId', car.id);
+
+            // var myModal = new bootstrap.Modal(document.getElementById('myModal'), {backdrop: true})
+
+        });
+}
 
 
-function deleteCar(id) {
+function deleteCar(e, id) {
+    e.preventDefault();
     console.log('delete', id);
     fetch(`${url}/${id}`, { method: 'DELETE' }).then((result) => fetchData());
 }
@@ -60,10 +68,10 @@ function handleSubmit(e) {
         year: "",
         color: ""
     };
-    serverCarObject.brand = carForm.carBrand.value;
-    serverCarObject.model = carForm.carModel.value;
-    serverCarObject.year = carForm.carYear.value;
-    serverCarObject.color = carForm.carColor.value;
+    serverCarObject.brand = carForm.brand.value;
+    serverCarObject.model = carForm.model.value;
+    serverCarObject.year = carForm.year.value;
+    serverCarObject.color = carForm.color.value;
 
     const id = localStorage.getItem("currentId");
     if (id) {

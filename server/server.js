@@ -34,6 +34,19 @@ server.get('/cars', (req, res) => {
     });
 });
 
+server.get('/cars/:id', (req, res) => {
+    const id = req.params.id; 
+    const sql = `SELECT * FROM cars WHERE id=${id}`;
+    
+    db.all(sql, (err, rows) => {
+        if (err) {
+            res.status(504).send(err); 
+        } else {
+            res.send(rows[0]);
+        }
+    });
+});
+
 //post-funktion som låter klienten skapa nya bilar i databasen 
 server.post("/cars", (req, res) => {
     const car = req.body;
@@ -72,7 +85,7 @@ server.put('/cars', (req, res) => {
     db.run(sql, (err) => {
         if (err) {
             console.log(err);
-            res.status(502).send(err);
+            res.status(520).send(err);
         } else {
             res.send("Bilen updaterades");
         }
