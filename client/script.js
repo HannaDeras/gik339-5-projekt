@@ -7,7 +7,7 @@ function fetchData() {
         .then((result) => result.json())
         .then((cars) => {
             if (cars.length > 0) {
-                let html = `<ul>`;
+                let html = `<ul class="list list-group row row-col-4>`;
 
                 // loopa igenom alla users och placera dom individuellt i DOM-trädet 
                 cars.forEach((car) => {
@@ -17,11 +17,11 @@ function fetchData() {
                     const id = car.id;
                     const color = car.color;
             
-                    html += `
-                    <li id="${id}" class="list list-group" style="background-color:${color}">${brand}, ${model}, ${year} 
+                    html += `<div class="col-2">
+                    <li id="${id}" class="list-group-item" style="background-color:${color}">${brand}, ${model}, ${year} 
                     <button class="btn btm-sm btn-primary" onclick="deleteCar(${car.id})" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</button>
                     <button class="btn btm-sm btn-primary" onclick="updateCar(${car.id})">Update</button>
-                    </li>`;
+                    </li></div>`;
                 });
                 html += `</ul>`;
                 const listContainer = document.getElementById('listContainer');
@@ -52,8 +52,8 @@ function updateCar(id) {
 }
 
 
-function deleteCar(e, id) {
-    e.preventDefault();
+function deleteCar(id) {
+    //e.preventDefault();
     console.log('delete', id);
     fetch(`${url}/${id}`, { method: 'DELETE' }).then((result) => fetchData());
 }
