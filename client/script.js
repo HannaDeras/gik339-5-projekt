@@ -7,7 +7,7 @@ function fetchData() {
         .then((result) => result.json())
         .then((cars) => {
             if (cars.length > 0) {
-                let html = `<ul class="list list-group row row-col-4>`;
+                let html = `<ul class="row g-2 g-lg-3 justify-content-center" style="list-style-type: none">`;
 
                 // loopa igenom alla users och placera dom individuellt i DOM-trädet 
                 cars.forEach((car) => {
@@ -17,11 +17,13 @@ function fetchData() {
                     const id = car.id;
                     const color = car.color;
             
-                    html += `<div class="col-2">
-                    <li id="${id}" class="list-group-item" style="background-color:${color}">${brand}, ${model}, ${year} 
-                    <button class="btn btm-sm btn-primary" onclick="deleteCar(${car.id})" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</button>
-                    <button class="btn btm-sm btn-primary" onclick="updateCar(${car.id})">Update</button>
-                    </li></div>`;
+                    html += `
+                    <li id="${id}" class="col-xs-9 col-md-3 p-3 m-1 rounded-3" style="background-color:${color}"> <br>${brand} <br>${model} <br>${year} <br>
+                    <div class="d-grid gap-2 col-4 mx-auto justify-content-center"> 
+                        <button class="btn btn-primary" onclick="deleteCar(${car.id})" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</button>
+                        <button class="btn btn-primary" onclick="updateCar(${car.id})">Update</button>
+                        </div>
+                    </li>`;
                 });
                 html += `</ul>`;
                 const listContainer = document.getElementById('listContainer');
