@@ -40,7 +40,7 @@ server.get('/cars/:id', (req, res) => {
     
     db.all(sql, (err, rows) => {
         if (err) {
-            res.status(504).send(err); 
+            res.status(500).send(err); 
         } else {
             res.send(rows[0]);
         }
@@ -55,7 +55,7 @@ server.post("/cars", (req, res) => {
     db.run(sql, Object.values(car), (err) => {
         if (err) {
             console.log(err);
-            res.status(501).send(err);
+            res.status(500).send(err);
         } else {
             res.send("Bilen sparades");
         }
@@ -85,7 +85,7 @@ server.put('/cars', (req, res) => {
     db.run(sql, (err) => {
         if (err) {
             console.log(err);
-            res.status(520).send(err);
+            res.status(500).send(err);
         } else {
             res.send("Bilen updaterades");
         }
@@ -100,7 +100,7 @@ server.delete("/cars/:id", (req, res) => {
     db.run(sql, (err) => {
         if (err) {
             console.log(err);
-            res.status(503).send(err);
+            res.status(500).send(err);
         } else {
             res.send("Bilen borttagen");
         }
