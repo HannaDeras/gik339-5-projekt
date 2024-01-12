@@ -47,14 +47,12 @@ function updateCar(id) {
 
             localStorage.setItem('currentId', car.id);
 
-            // var myModal = new bootstrap.Modal(document.getElementById('myModal'), {backdrop: true})
 
         });
 }
 
 
 function deleteCar(id) {
-    //e.preventDefault();
     console.log('delete', id);
     fetch(`${url}/${id}`, { method: 'DELETE' }).then((result) => fetchData());
 }
